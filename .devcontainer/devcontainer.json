@@ -1,0 +1,13 @@
+{
+  "name": "scala-dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": { "version": "17" }
+  },
+  "postCreateCommand": "curl -fL https://github.com/coursier/coursier/releases/latest/download/cs-x86_64-pc-linux.gz | gzip -d > cs && chmod +x cs && ./cs setup -y",
+  "customizations": {
+    "vscode": {
+      "extensions": ["scalameta.metals"]
+    }
+  }
+}
