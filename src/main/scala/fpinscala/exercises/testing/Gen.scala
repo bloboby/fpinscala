@@ -56,8 +56,19 @@ object Prop:
     ): Result =
       self(maxSize, testCases, rng)
 
-    def &&(that: Prop): Prop = ???
-    def ||(that: Prop): Prop = ???
+    def &&(that: Prop): Prop = (m, n, rng) =>
+      (self(m, n, rng), that(m, n, rng)) match
+        // TODO: preserve info about which case was falsified
+        case (Result.Falsified(f, s), _) => Result.Falsified(f, s)
+        case (_, Result.Falsified(f, s)) => Result.Falsified(f, s)
+        case _                           => Result.Passed
+
+    def ||(that: Prop): Prop = (m, n, rng) =>
+      (self(m, n, rng), that(m, n, rng)) match
+        // TODO: preserve info about which case was falsified
+        case (Result.Falsified(f, s), Result.Falsified(_, _)) =>
+          Result.Falsified(f, s)
+        case _ => Result.Passed
 
 opaque type Gen[+A] = State[RNG, A]
 
