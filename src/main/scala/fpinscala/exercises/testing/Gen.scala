@@ -17,13 +17,18 @@ trait Prop
 object Prop:
   def forAll[A](gen: Gen[A])(f: A => Boolean): Prop = ???
 
+opaque type Gen[+A] = State[RNG, A]
+
 object Gen:
+
   def unit[A](a: => A): Gen[A] = ???
 
-  extension [A](self: Gen[A]) def flatMap[B](f: A => Gen[B]): Gen[B] = ???
+  def choose(start: Int, stopExclusive: Int): Gen[Int] = ???
 
-trait Gen[A]:
-  def map[B](f: A => B): Gen[B] = ???
-  def flatMap[B](f: A => Gen[B]): Gen[B] = ???
+  extension [A](self: Gen[A])
+    def flatMap[B](f: A => Gen[B]): Gen[B] = ???
+
+    // We should use a different method name to avoid looping (not 'run')
+    def next(rng: RNG): (A, RNG) = self.run(rng)
 
 trait SGen[+A]
