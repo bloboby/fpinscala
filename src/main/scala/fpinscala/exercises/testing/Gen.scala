@@ -100,4 +100,21 @@ object Gen:
 
     def listOfN(size: Gen[Int]): Gen[List[A]] = size.flatMap(listOfN)
 
-trait SGen[+A]
+    def unsized: SGen[A] = _ => self
+
+    def list: SGen[List[A]] = n => listOfN(n)
+
+    def nonEmptyList: SGen[List[A]] = n => listOfN(n.max(1))
+
+opaque type SGen[+A] = Int => Gen[A]
+
+object SGen:
+  def apply[A](f: Int => Gen[A]): SGen[A] = f
+
+  extension [A](self: SGen[A])
+    def apply(n: Int): Gen[A] = self(n)
+
+    def map[B](f: A => B): SGen[B] = self(_).map(f)
+
+    def flatMap[B](f: A => SGen[B]): SGen[B] = n =>
+      self(n).flatMap(a => f(a)(n))
