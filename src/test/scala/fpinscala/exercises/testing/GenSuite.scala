@@ -118,7 +118,7 @@ object Gen:
 
 // Prop tests: Before using these tests (starting from Exercise 8.9),
 // add the next block to fpinscala.exercises.testing.Gen.scala file
-/* ToDo: fpinscala.exercises.testing.Gen.scala file's block
+  /* ToDo: fpinscala.exercises.testing.Gen.scala file's block
 object Prop:
   extension (self: Prop)
     def check(
@@ -127,14 +127,14 @@ object Prop:
                rng: RNG = RNG.Simple(System.currentTimeMillis)
              ): Result =
       self(maxSize, testCases, rng)
- */
+   */
 
 // Prop tests
-/*
   import fpinscala.exercises.testing.Prop.Result.*
 
   private val propPassed = Prop((n, rng) => Passed)
-  private val falsified = Falsified(FailedCase.fromString("Failed case"), SuccessCount.fromInt(0))
+  private val falsified =
+    Falsified(FailedCase.fromString("Failed case"), SuccessCount.fromInt(0))
   private val propFalsified = Prop((n, rng) => falsified)
 
   test("Exercise 8.9")(ExhGen.unit(())): _ =>
@@ -147,7 +147,6 @@ object Prop:
     assertEquals((propPassed || propFalsified).check(), Passed)
     assertEquals((propFalsified || propPassed).check(), Passed)
     assert((propFalsified || propFalsified).check().isFalsified)
- */
 
 // SGen tests: Before using these tests (starting from Exercise 8.10),
 // add the next block to fpinscala.exercises.testing.Gen.scala file

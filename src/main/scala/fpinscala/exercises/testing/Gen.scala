@@ -12,10 +12,52 @@ The library developed in this chapter goes through several iterations. This file
 shell, which you can fill in and modify while working through the chapter.
  */
 
-trait Prop
+opaque type Prop = (MaxSize, TestCases, RNG) => Result
 
 object Prop:
-  def forAll[A](gen: Gen[A])(f: A => Boolean): Prop = ???
+  opaque type SuccessCount = Int
+  object SuccessCount:
+    extension (x: SuccessCount) def toInt: Int = x
+    def fromInt(x: Int): SuccessCount = x
+
+  opaque type TestCases = Int
+  object TestCases:
+    extension (x: TestCases) def toInt: Int = x
+    def fromInt(x: Int): TestCases = x
+
+  opaque type MaxSize = Int
+  object MaxSize:
+    extension (x: MaxSize) def toInt: Int = x
+    def fromInt(x: Int): MaxSize = x
+
+  opaque type FailedCase = String
+  object FailedCase:
+    extension (f: FailedCase) def string: String = f
+    def fromString(s: String): FailedCase = s
+
+  enum Result:
+    case Passed
+    case Falsified(failure: FailedCase, successes: SuccessCount)
+    case Proved
+
+    def isFalsified: Boolean = this match
+      case Passed          => false
+      case Falsified(_, _) => true
+      case Proved          => false
+
+  def apply(f: (TestCases, RNG) => Result): Prop =
+    (_, n, rng) => f(n, rng)
+
+  extension (self: Prop)
+    def check(
+        maxSize: MaxSize = 100,
+        testCases: TestCases = 100,
+        rng: RNG = RNG.Simple(System.currentTimeMillis)
+    ): Result =
+      self(maxSize, testCases, rng)
+
+    def &&(that: Prop): Prop = ???
+    def ||(that: Prop): Prop = ???
 
 opaque type Gen[+A] = State[RNG, A]
 
