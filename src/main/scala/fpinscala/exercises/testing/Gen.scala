@@ -94,6 +94,8 @@ object Gen:
     // We should use a different method name to avoid looping (not 'run')
     def next(rng: RNG): (A, RNG) = self.run(rng)
 
+    def map[B](f: A => B): Gen[B] = State.map(self)(f)
+
     def flatMap[B](f: A => Gen[B]): Gen[B] = State.flatMap(self)(f)
 
     def listOfN(n: Int): Gen[List[A]] = State.sequence(List.fill(n)(self))

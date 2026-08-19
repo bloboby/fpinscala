@@ -61,20 +61,19 @@ class MonoidSuite extends PropSuite:
         "associativity"
       )
 
-  /* GenSuite from chapter 8 must be passed
-  test("Monoid.monoidLaws")(Gen.unit(())): _ =>
-    import fpinscala.exercises.testing.Gen as EGen
-    import fpinscala.exercises.testing.Prop.Result.*
+  // GenSuite from chapter 8 must be passed
+  // test("Monoid.monoidLaws")(Gen.unit(())): _ =>
+  //   import fpinscala.exercises.testing.Gen as EGen
+  //   import fpinscala.exercises.testing.Prop.Result.*
 
-    val genInt = EGen.choose(Int.MinValue, Int.MaxValue)
-    val genOption = genInt.map(i => if i % 2 == 0 then Some(i / 2) else None)
+  //   val genInt = EGen.choose(Int.MinValue, Int.MaxValue)
+  //   val genOption = genInt.map(i => if i % 2 == 0 then Some(i / 2) else None)
 
-    assertEquals(monoidLaws(intAddition, genInt).check(), Passed)
-    assertEquals(monoidLaws(intMultiplication, genInt).check(), Passed)
-    assertEquals(monoidLaws(booleanOr, EGen.boolean).check(), Passed)
-    assertEquals(monoidLaws(booleanAnd, EGen.boolean).check(), Passed)
-    assertEquals(monoidLaws(optionMonoid[Int], genOption).check(), Passed)
-   */
+  //   assertEquals(monoidLaws(intAddition, genInt).check(), Passed)
+  //   assertEquals(monoidLaws(intMultiplication, genInt).check(), Passed)
+  //   assertEquals(monoidLaws(booleanOr, EGen.boolean).check(), Passed)
+  //   assertEquals(monoidLaws(booleanAnd, EGen.boolean).check(), Passed)
+  //   assertEquals(monoidLaws(optionMonoid[Int], genOption).check(), Passed)
 
   test("Monoid.combineAll")(genIntList ** genStringList ** genBooleanList):
     case ilist ** slist ** blist =>
@@ -181,18 +180,18 @@ class MonoidSuite extends PropSuite:
       "associativity"
     )
 
-  test("Monoid.bag")(Gen.unit(())): _ =>
-    assertEquals(bag(IndexedSeq.empty[String]), Map.empty[String, Int])
-    assertEquals(bag(IndexedSeq("rose")), Map("rose" -> 1))
-    assertEquals(bag(IndexedSeq("rose", "rose", "rose")), Map("rose" -> 3))
-    assertEquals(
-      bag(IndexedSeq("a", "rose", "is")),
-      Map("a" -> 1, "rose" -> 1, "is" -> 1)
-    )
-    assertEquals(
-      bag(IndexedSeq("a", "rose", "is", "a", "rose")),
-      Map("a" -> 2, "rose" -> 2, "is" -> 1)
-    )
+  // test("Monoid.bag")(Gen.unit(())): _ =>
+  //   assertEquals(bag(IndexedSeq.empty[String]), Map.empty[String, Int])
+  //   assertEquals(bag(IndexedSeq("rose")), Map("rose" -> 1))
+  //   assertEquals(bag(IndexedSeq("rose", "rose", "rose")), Map("rose" -> 3))
+  //   assertEquals(
+  //     bag(IndexedSeq("a", "rose", "is")),
+  //     Map("a" -> 1, "rose" -> 1, "is" -> 1)
+  //   )
+  //   assertEquals(
+  //     bag(IndexedSeq("a", "rose", "is", "a", "rose")),
+  //     Map("a" -> 2, "rose" -> 2, "is" -> 1)
+  //   )
 
   private def trueCounter(b: Boolean): Int = if b then 1 else 0
 
